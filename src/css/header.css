@@ -1,0 +1,27 @@
+#header {
+  background-color: var(--primary-accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 10%;
+  height: 10vh;
+}
+
+#header * {
+  color: var(--text-darkmode);
+}
+
+/* .logo { */
+/*   width: 100%; */
+/*   height: auto; */
+/* } */
+
+#header-right {
+  display: flex;
+  gap: 10px;
+}
+
+#logo {
+  width: 70px;
+  height: auto;
+}
