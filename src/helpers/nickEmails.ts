@@ -1,10 +1,6 @@
-import { BaseInputs } from "./baseEmails";
+import { Inputs } from "./baseEmails";
 
-export interface NickInputs extends Omit<BaseInputs, 'first'> {
-  nick: string; 
-}
-
-export default function nickEmails(input: NickInputs) {
+export default function nickEmails(input: Inputs) {
   return `
 ${input.nick}@${input.domain}${input.tld}
 ${input.nick}${input.last}@${input.domain}${input.tld}

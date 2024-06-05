@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "./App.css";
-// import "./css/form.css";
 import "./css/typograhy.css";
-import baseEmails from "./helpers/baseEmails.ts" 
-import middleEmails from "./helpers/middleEmails";
-import nickEmails from "./helpers/nickEmails";
+import baseEmails from "./helpers/baseEmails.ts"
 import SubHeader from "./components/SubHeader";
 import Clipboard from "./components/Clipboard";
 import GmailButton from "./components/GmailButton";
-// import "./css/button.css";
+import constructEmails from "./helpers/construcEmails.ts";
+import FormLine from "./components/FormLine.tsx";
+import DomainInput from "./components/DomainInput.tsx"
+import TextArea from "./components/TextArea.tsx";
 
-// import SearchInput from "./components/SearchInput";
 
 export default function App() {
   const [expanded, setExpanded] = useState(false);
@@ -21,31 +20,24 @@ export default function App() {
   const [middle, setMiddle] = useState("");
   const [tld, setTld] = useState(".com");
   const [emails, setEmails] = useState(
-    baseEmails({ first: "stephen", last: "jobs", domain: "apple", tld: tld })
+    baseEmails({ first: "stephen", last: "jobs", domain: "apple", tld: tld, nick: "steve", middle: "" })
   );
-  const parameterObject = {
-    first: first.toLowerCase(),
-    last: last.toLowerCase(),
-    domain: domain.toLowerCase(),
-    tld: tld.toLowerCase(),
-    middle: middle.toLowerCase(),
-    nick: nick.toLowerCase(),
-  };
 
-  useEffect(() => console.log(middle), [middle]);
-
-  function handleFormSubmit(event: SubmitEvent) {
+  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log(`handleFormSubmit() called`);
-    // Use parameterObject instead of middle and nick directly
 
-    if (parameterObject.middle === "" && parameterObject.nick === "") {
-      setEmails(baseEmails(parameterObject));
-    } else if (parameterObject.middle !== "" && parameterObject.nick === "") {
-      setEmails(baseEmails(parameterObject) + middleEmails(parameterObject));
-    } else if (parameterObject.middle === "" && parameterObject.nick !== "") {
-      setEmails(baseEmails(parameterObject) + nickEmails(parameterObject));
-    }
+    const inputObject = {
+      first: first.toLowerCase().trim(),
+      last: last.toLowerCase().trim(),
+      domain: domain.toLowerCase(),
+      tld: tld.toLowerCase(),
+      middle: middle.toLowerCase().trim(),
+      nick: nick.toLowerCase().trim(),
+    };
+
+    // Use inputObject instead of middle and nick directly
+    setEmails(constructEmails(inputObject))
   }
 
   function handleExpandButton() {
@@ -63,93 +55,11 @@ export default function App() {
           <div className="app-container">
             <div className="col-left">
               <form onSubmit={handleFormSubmit}>
-                <div className="form-line">
-                  <label htmlFor="first" aria-describedby="first">
-                    First Name:
-                  </label>
-                  <input
-                    id="first"
-                    type="text"
-                    value={first}
-                    placeholder="Stephen"
-                    required
-                    onChange={event => setFirst(event.target.value)}
-                  />
-                </div>
-                <div className="form-line">
-                  <label htmlFor="last" aria-describedby="last name">
-                    Last Name:
-                  </label>
-                  <input
-                    id="last"
-                    type="text"
-                    value={last}
-                    placeholder="Jobs"
-                    required
-                    onChange={event => setLast(event.target.value)}
-                  />
-                </div>
-                {expanded && (
-                  <div className="form-line">
-                    <label htmlFor="nick-name" aria-describedby="nick name">
-                      Nick Name:
-                    </label>
-                    <input
-                      id="nick"
-                      type="text"
-                      value={nick}
-                      placeholder="Steve"
-                      onChange={event => setNick(event.target.value)}
-                    />
-                  </div>
-                )}
-                {expanded && (
-                  <div className="form-line">
-                    <label htmlFor="middle-name" aria-describedby="middle name">
-                      Middle Name:
-                    </label>
-                    <input
-                      id="middle"
-                      type="text"
-                      value={middle}
-                      placeholder=""
-                      onChange={event => setMiddle(event.target.value)}
-                    />
-                  </div>
-                )}
-
-                <div className="form-line">
-                  <label htmlFor="domain" aria-describedby="domain">
-                    Domain:
-                  </label>
-                  <div id="domain-input-line">
-                    <span id="at-span">@</span>
-                    <input
-                      id="domain-input"
-                      type="text"
-                      value={domain}
-                      placeholder="apple"
-                      required
-                      onChange={event => setDomain(event.target.value)}
-                    />
-                    <select
-                      onChange={event => setTld(event.target.value)}
-                      value={tld}
-                      name="tld"
-                      id="tld"
-                    >
-                      <option value=".com">.com</option>
-                      <option value=".net">.net</option>
-                      <option value=".org">.org</option>
-                      <option value=".edu">.edu</option>
-                      <option value=".gov">.gov</option>
-                      <option value=".biz">.biz</option>
-                      <option value=".io">.io</option>
-                      <option value=".co">.co</option>
-                      <option value=".app">.app</option>
-                    </select>
-                  </div>
-                </div>
+                <FormLine id="first" aria="first name" label="First Name:" value={first} placeholder="Stephen" onChange={event => setFirst(event.target.value)} required={true} />
+                <FormLine id="last" aria="last name" label="Last Name:" value={last} placeholder="Jobs" required={true} onChange={event => setLast(event.target.value)} />
+                {expanded && <FormLine id="nick" aria="nick name" label="Nick Name" value={nick} placeholder="Steve" onChange={event => setNick(event.target.value)} />}
+                {expanded && <FormLine id="middle" aria="middle name" label="Middle Name" value={middle} placeholder="" onChange={event => setMiddle(event.target.value)} />}
+                <DomainInput id="domain-input" aria="domain" label="Domain:" placeholder="apple" value={domain} onChange={event => setDomain(event.target.value)} selectValue={tld} onSelectChange={event => setTld(event.target.value)} />
                 <div className="button-container">
                   <button type="submit" id="generate-button" className="btn">
                     Generate Email Combinations
@@ -165,14 +75,7 @@ export default function App() {
               </button>
             </div>
             <div className="col-right">
-              <label htmlFor="emails"></label>
-              <textarea
-                name="emails"
-                id="emails"
-                value={emails}
-                className="text"
-                readOnly
-              ></textarea>
+              <TextArea value={emails}/>
               <Clipboard emails={emails} />
               <GmailButton emails={emails} />
             </div>

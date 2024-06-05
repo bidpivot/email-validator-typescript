@@ -1,4 +1,4 @@
-import react from "../assets/react.svg";
+// import react from "../assets/react.svg";
 import emailLogo from "../assets/emailLogo.png";
 export default function Header() {
   return (

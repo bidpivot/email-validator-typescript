@@ -1,10 +1,7 @@
-import { BaseInputs } from "./baseEmails.ts" 
+import { Inputs } from "./baseEmails.ts" 
 
-export interface MiddleInputs extends BaseInputs {
-  middle: string; // Add the 'middle' field
-}
 
-export default function middleEmails(input: MiddleInputs) {
+export default function middleEmails(input: Inputs) {
   return `
 ${input.first[0]}${input.middle[0]}${input.last}@${input.domain}${input.tld}
 ${input.first[0]}${input.middle[0]}.${input.last}@${input.domain}${input.tld}

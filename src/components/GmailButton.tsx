@@ -1,8 +1,9 @@
-import React from "react";
+import { ClipboardProps } from "./Clipboard";
+ 
 
-const GmailButton = ({ emails }) => {
+const GmailButton = ({ emails }: ClipboardProps ) => {
   const commaSeparatedEmails = emails.replace(/\n/g, ", ");
-  console.log(`GmailButton() called with emails: ${commaSeparatedEmails}`);
+  // console.log(`GmailButton() called with emails: ${commaSeparatedEmails}`);
   const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&bcc=${commaSeparatedEmails}`;
 
   return (
