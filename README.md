@@ -1,10 +1,9 @@
 ## Email Validator
 
-This is a basic react project that I used to test out some basic react hooks.
-
+This is typescript migration (and refactoring) of an older repo [found here](https://github.com/bidpivot/email-validator-react) 
 You CAN actually use this tool to find someone's email address. 
 
-[Here is link to the website](https://bidpivot.github.io/email-validator-react/)
+[Here is link to the website](https://bidpivot.github.io/email-validator-typescript/)
 
 
 ***Here's how it works:***
@@ -20,7 +19,7 @@ This repo is also useful if you want to test out a new package or demo something
 ---
 
 *Coming Soon...*
-- [ ] conversion to typescript
+- [x] conversion to typescript
 - [ ]  video to show how it works
 - [ ] backend with actual email tester 
 
